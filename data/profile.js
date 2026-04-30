@@ -36,7 +36,7 @@ export const profile = {
   ],
   contact: {
     email: "vaibhavsurthi08@gmail.com",
-    linkedin: "https://www.linkedin.com/in/vaibhav-surthi-768203254/",
+    linkedin: "https://www.linkedin.com/in/vaibhavsurthi/",
     github: "https://github.com/vaibhxvvy"
   }
 };
