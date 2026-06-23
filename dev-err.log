@@ -1,0 +1,45 @@
+⚠ turbopack.root should be absolute, using: C:\Users\vaibh\Desktop\revamp
+[browser] Uncaught TypeError: can't access property "startsWith", line is undefined
+    at <unknown> (About/<.children<.children<.children<.children<@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2015:41)
+    at <unknown> (About@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2014:46)
+    at Home (src/app/page.tsx:19:7)
+  17 |       <Capabilities />
+  18 |       <Journey />
+> 19 |       <About />
+     |       ^
+  20 |       <Contact />
+  21 |     </main>
+  22 |   )
+[browser] Uncaught TypeError: can't access property "startsWith", line is undefined
+    at <unknown> (About/<.children<.children<.children<.children<@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2015:41)
+    at <unknown> (About@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2014:46)
+    at Home (src/app/page.tsx:19:7)
+  17 |       <Capabilities />
+  18 |       <Journey />
+> 19 |       <About />
+     |       ^
+  20 |       <Contact />
+  21 |     </main>
+  22 |   )
+[browser] Uncaught TypeError: can't access property "startsWith", line is undefined
+    at <unknown> (About/<.children<.children<.children<.children<@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2015:41)
+    at <unknown> (About@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2014:46)
+    at Home (src/app/page.tsx:19:7)
+  17 |       <Capabilities />
+  18 |       <Journey />
+> 19 |       <About />
+     |       ^
+  20 |       <Contact />
+  21 |     </main>
+  22 |   )
+[browser] Uncaught TypeError: can't access property "startsWith", line is undefined
+    at <unknown> (About/<.children<.children<.children<.children<@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2015:41)
+    at <unknown> (About@http://localhost:3000/_next/static/chunks/portfolio_src_0xyj72-._.js:2014:46)
+    at Home (src/app/page.tsx:19:7)
+  17 |       <Capabilities />
+  18 |       <Journey />
+> 19 |       <About />
+     |       ^
+  20 |       <Contact />
+  21 |     </main>
+  22 |   )

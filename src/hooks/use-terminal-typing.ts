@@ -17,12 +17,21 @@ export function useTerminalTyping(
   const [visibleLines, setVisibleLines] = useState<string[]>([])
   const [isComplete, setIsComplete] = useState(false)
 
+  /* Reset state when lines change */
+  useEffect(() => {
+    setVisibleLines([])
+    setIsComplete(false)
+  }, [lines])
+
   const startTyping = useCallback(() => {
     let index = 0
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
         if (index < lines.length) {
-          setVisibleLines((prev) => [...prev, lines[index]])
+          const nextLine = lines[index]
+          if (nextLine !== undefined) {
+            setVisibleLines((prev) => [...prev, nextLine])
+          }
           index++
         } else {
           clearInterval(interval)

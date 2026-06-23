@@ -6,6 +6,14 @@ import { aboutData } from '@/lib/data'
 import { useTerminalTyping } from '@/hooks/use-terminal-typing'
 import { useState, useEffect } from 'react'
 
+const terminalLines = [
+  '$ whoami',
+  ...aboutData.whoami,
+  '',
+  '$ cat description.txt',
+  aboutData.description,
+]
+
 export function About() {
   const [showCursor, setShowCursor] = useState(true)
 
@@ -15,14 +23,6 @@ export function About() {
     }, 530)
     return () => clearInterval(interval)
   }, [])
-
-  const terminalLines = [
-    '$ whoami',
-    ...aboutData.whoami,
-    '',
-    '$ cat description.txt',
-    aboutData.description,
-  ]
 
   const { visibleLines, scrollRef } = useTerminalTyping(terminalLines, {
     speed: 400,
@@ -52,16 +52,20 @@ export function About() {
             ref={scrollRef}
             className="p-6 font-mono text-sm leading-loose min-h-[280px] overflow-y-auto"
           >
-            {visibleLines.map((line, i) => (
-              <div
-                key={i}
-                className={
-                  line.startsWith('$') ? 'text-[#7C3AED] mt-3 first:mt-0' : 'text-secondary-foreground'
-                }
-              >
-                {line || '\u00A0'}
-              </div>
-            ))}
+            {visibleLines.map((line, i) =>
+              line !== undefined ? (
+                <div
+                  key={`${i}-${line.slice(0, 10)}`}
+                  className={
+                    line.startsWith('$')
+                      ? 'text-[#7C3AED] mt-3 first:mt-0'
+                      : 'text-secondary-foreground'
+                  }
+                >
+                  {line || '\u00A0'}
+                </div>
+              ) : null
+            )}
             <span
               className={`inline-block h-4 w-2 ${showCursor ? 'animate-pulse bg-[#7C3AED]/80' : 'bg-transparent'}`}
             />
