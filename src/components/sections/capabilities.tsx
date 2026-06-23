@@ -1,29 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { siteConfig } from '@/content/config'
 import { Reveal, Stagger, StaggerItem } from '@/components/motion/reveal'
+import { SectionHeader } from '@/components/shared/section-header'
+import { capabilities } from '@/lib/data'
 import { motion } from 'framer-motion'
 
 export function Capabilities() {
-  const { capabilities } = siteConfig
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
   return (
     <section id="capabilities" className="relative px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="mb-16 flex flex-col items-center text-center">
-            <span className="mb-4 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 font-mono text-xs tracking-wider text-muted-foreground uppercase">
-              System Capabilities
-            </span>
-            <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-              What I <span className="text-gradient-primary">Build With</span>
-            </h2>
-            <p className="mt-4 max-w-lg text-lg text-muted-foreground">
-              Capabilities organized by domain, not percentages.
-            </p>
-          </div>
+          <SectionHeader
+            label="System Capabilities"
+            title={<>
+              What I <span className="bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">Build With</span>
+            </>}
+            subtitle="Capabilities organized by domain, not percentages."
+          />
         </Reveal>
 
         <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.1}>
@@ -57,7 +53,10 @@ export function Capabilities() {
                         key={skill}
                         initial={{ opacity: 0.6 }}
                         animate={{
-                          opacity: hoveredCategory === cat.category || hoveredCategory === null ? 1 : 0.3,
+                          opacity:
+                            hoveredCategory === cat.category || hoveredCategory === null
+                              ? 1
+                              : 0.3,
                           scale: hoveredCategory === cat.category ? 1 : 0.98,
                         }}
                         transition={{ duration: 0.3, delay: i * 0.03 }}

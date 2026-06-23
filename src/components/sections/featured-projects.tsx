@@ -1,33 +1,32 @@
 'use client'
 
-import { siteConfig } from '@/content/config'
 import { Reveal } from '@/components/motion/reveal'
+import { SectionHeader } from '@/components/shared/section-header'
+import { projects } from '@/lib/data'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 
 export function FeaturedProjects() {
-  const { projects } = siteConfig
-
   return (
     <section id="projects" className="relative px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="mb-20 flex flex-col items-center text-center">
-            <span className="mb-4 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 font-mono text-xs tracking-wider text-muted-foreground uppercase">
-              Selected Work
-            </span>
-            <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-              Featured <span className="text-gradient-primary">Projects</span>
-            </h2>
-            <p className="mt-4 max-w-lg text-lg text-muted-foreground">
-              Products and systems I have designed, built, and shipped.
-            </p>
-          </div>
+          <SectionHeader
+            label="Selected Work"
+            title={<>
+              Featured <span className="bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">Projects</span>
+            </>}
+            subtitle="Products and systems I have designed, built, and shipped."
+          />
         </Reveal>
 
         <div className="space-y-24">
           {projects.map((project, index) => (
-            <Reveal key={project.title} delay={index * 0.1} direction={index % 2 === 0 ? 'left' : 'right'}>
+            <Reveal
+              key={project.title}
+              delay={index * 0.1}
+              direction={index % 2 === 0 ? 'left' : 'right'}
+            >
               <motion.article
                 whileHover={{ y: -2 }}
                 className="group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-[#0A0A0A] transition-all hover:border-white/[0.12]"
@@ -35,6 +34,7 @@ export function FeaturedProjects() {
                 <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/[0.03] to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
                 <div className="relative grid gap-0 lg:grid-cols-2">
+                  {/* Thumbnail */}
                   <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-white/[0.02] to-transparent p-12 lg:p-16">
                     <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-[#111]">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/10 to-[#06B6D4]/5" />
@@ -45,6 +45,7 @@ export function FeaturedProjects() {
                     <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-[#7C3AED]/5 blur-3xl" />
                   </div>
 
+                  {/* Details */}
                   <div className="flex flex-col justify-center p-8 lg:p-12 xl:p-16">
                     <div className="mb-4 flex items-center gap-3">
                       <span className="rounded-full bg-white/[0.05] px-3 py-1 font-mono text-xs text-muted-foreground">

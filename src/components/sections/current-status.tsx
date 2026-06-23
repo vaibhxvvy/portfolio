@@ -1,32 +1,30 @@
 'use client'
 
-import { siteConfig } from '@/content/config'
-import { Reveal, Stagger, StaggerItem } from '@/components/motion/reveal'
-import { motion } from 'framer-motion'
 import { Cpu, Code2, Signal, BookOpen } from 'lucide-react'
+import { statusModules } from '@/lib/data'
+import { Reveal, Stagger, StaggerItem } from '@/components/motion/reveal'
+import { SectionHeader } from '@/components/shared/section-header'
+import { motion } from 'framer-motion'
 
-const iconMap: Record<string, React.ReactNode> = {
-  '🎯': <Cpu className="size-5" />,
-  '⚡': <Code2 className="size-5" />,
-  '📶': <Signal className="size-5" />,
-  '📖': <BookOpen className="size-5" />,
+/* Map icon keys to actual Lucide components (avoids emoji keys) */
+const iconLookup: Record<string, React.ReactNode> = {
+  target: <Cpu className="size-5" />,
+  zap: <Code2 className="size-5" />,
+  signal: <Signal className="size-5" />,
+  'book-open': <BookOpen className="size-5" />,
 }
 
 export function CurrentStatus() {
-  const { statusModules } = siteConfig
-
   return (
     <section id="status" className="relative px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="mb-16 flex flex-col items-center text-center">
-            <span className="mb-4 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 font-mono text-xs tracking-wider text-muted-foreground uppercase">
-              System Status
-            </span>
-            <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-              Current <span className="text-gradient-primary">Operating State</span>
-            </h2>
-          </div>
+          <SectionHeader
+            label="System Status"
+            title={<>
+              Current <span className="bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">Operating State</span>
+            </>}
+          />
         </Reveal>
 
         <Stagger className="grid gap-6 sm:grid-cols-2" staggerDelay={0.15}>
@@ -40,7 +38,7 @@ export function CurrentStatus() {
                 <div className="relative">
                   <div className="mb-5 flex items-center gap-3">
                     <div className="flex size-10 items-center justify-center rounded-xl bg-white/[0.05] text-[#7C3AED]">
-                      {iconMap[module.icon] || <Cpu className="size-5" />}
+                      {iconLookup[module.icon] ?? <Cpu className="size-5" />}
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white">{module.label}</h3>

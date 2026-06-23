@@ -1,18 +1,24 @@
 'use client'
 
-import { siteConfig } from '@/content/config'
 import { Reveal, Stagger, StaggerItem } from '@/components/motion/reveal'
+import { SectionHeader } from '@/components/shared/section-header'
+import { journey } from '@/lib/data'
+import { JourneyType } from '@/types'
 import { motion } from 'framer-motion'
 import { GraduationCap, Briefcase, Rocket, Star } from 'lucide-react'
 
-const typeIcons: Record<string, React.ReactNode> = {
+/* -------------------------------------------------------------------------- */
+/*  Asset maps (kept outside component to avoid re-creation)                  */
+/* -------------------------------------------------------------------------- */
+
+const typeIcons: Record<JourneyType, React.ReactNode> = {
   education: <GraduationCap className="size-4" />,
   experience: <Briefcase className="size-4" />,
   project: <Rocket className="size-4" />,
   milestone: <Star className="size-4" />,
 }
 
-const typeColors: Record<string, string> = {
+const typeColors: Record<JourneyType, string> = {
   education: '#7C3AED',
   experience: '#06B6D4',
   project: '#22C55E',
@@ -20,20 +26,16 @@ const typeColors: Record<string, string> = {
 }
 
 export function Journey() {
-  const { journey } = siteConfig
-
   return (
     <section id="journey" className="relative px-6 py-32">
       <div className="mx-auto max-w-4xl">
         <Reveal>
-          <div className="mb-16 flex flex-col items-center text-center">
-            <span className="mb-4 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 font-mono text-xs tracking-wider text-muted-foreground uppercase">
-              Timeline
-            </span>
-            <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-              The <span className="text-gradient-primary">Journey</span>
-            </h2>
-          </div>
+          <SectionHeader
+            label="Timeline"
+            title={<>
+              The <span className="bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">Journey</span>
+            </>}
+          />
         </Reveal>
 
         <div className="relative">

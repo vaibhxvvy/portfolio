@@ -1,38 +1,31 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { siteConfig } from '@/content/config'
 import { ArrowDown, ExternalLink } from 'lucide-react'
+import { heroData } from '@/lib/data'
+import { useMousePosition } from '@/hooks/use-mouse-position'
+import { ANIMATION } from '@/lib/constants'
 
 export function Hero() {
-  const { hero } = siteConfig
   const [roleIndex, setRoleIndex] = useState(0)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLElement>(null)
+  const mousePos = useMousePosition(containerRef)
 
+  /* Rotate role titles every 3s */
   useEffect(() => {
     const interval = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % hero.roles.length)
+      setRoleIndex((prev) => (prev + 1) % heroData.roles.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [hero.roles.length])
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    })
   }, [])
 
   return (
     <section
       ref={containerRef}
-      onMouseMove={handleMouseMove}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
     >
+      {/* Mouse-reactive glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-30"
         style={{
@@ -40,16 +33,18 @@ export function Hero() {
         }}
       />
 
+      {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[#7C3AED]/10 to-[#06B6D4]/5 blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-[#EC4899]/5 to-[#7C3AED]/5 blur-[100px]" />
       </div>
 
       <div className="relative z-10 flex max-w-5xl flex-col items-center text-center">
+        {/* Availability badge */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: ANIMATION.DURATION.slow, ease: ANIMATION.EASE }}
           className="mb-6 flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm"
         >
           <span className="relative flex h-2 w-2">
@@ -59,20 +54,24 @@ export function Hero() {
           Available for opportunities
         </motion.div>
 
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 1, delay: 0.1, ease: ANIMATION.EASE }}
           className="text-[clamp(3rem,10vw,8rem)] font-bold leading-[0.95] tracking-tight text-white"
         >
           <span className="block">VAIBHAV</span>
-          <span className="block text-gradient-primary">SURTHI</span>
+          <span className="block bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">
+            SURTHI
+          </span>
         </motion.h1>
 
+        {/* Role rotation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: ANIMATION.DURATION.slow, delay: 0.4 }}
           className="mt-8 flex items-center gap-3 text-2xl font-medium text-secondary-foreground md:text-3xl"
         >
           <AnimatePresence mode="wait">
@@ -84,16 +83,17 @@ export function Hero() {
               transition={{ duration: 0.4 }}
               className="inline-block"
             >
-              {hero.roles[roleIndex]}
+              {heroData.roles[roleIndex]}
             </motion.span>
           </AnimatePresence>
           <span className="inline-block h-[2px] w-8 bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] animate-pulse" />
         </motion.div>
 
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: ANIMATION.DURATION.slow, delay: 0.6 }}
           className="mt-6 max-w-xl font-serif text-xl italic text-muted-foreground md:text-2xl"
         >
           creating useful software
@@ -102,48 +102,49 @@ export function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          transition={{ duration: ANIMATION.DURATION.slow, delay: 0.7 }}
           className="mt-4 max-w-lg text-base text-muted-foreground"
         >
-          {hero.statement}
+          {heroData.statement}
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
+          transition={{ duration: ANIMATION.DURATION.slow, delay: 0.9 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
-            href={hero.cta.primary.href}
+            href={heroData.cta.primary.href}
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-2xl bg-white px-8 py-3.5 text-sm font-medium text-[#050505] transition-all hover:shadow-[0_0_30px_-5px_rgba(124,58,237,0.3)]"
           >
-            <span className="relative z-10">{hero.cta.primary.label}</span>
+            <span className="relative z-10">{heroData.cta.primary.label}</span>
             <ArrowDown className="relative z-10 size-4 transition-transform group-hover:translate-y-0.5" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] opacity-0 transition-opacity group-hover:opacity-100" />
           </a>
 
           <a
-            href={hero.cta.secondary.href}
+            href={heroData.cta.secondary.href}
             target="_blank"
             rel="noopener noreferrer"
             className="relative inline-flex items-center gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-8 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-white/[0.15] hover:bg-white/[0.06]"
           >
-            {hero.cta.secondary.label}
+            {heroData.cta.secondary.label}
           </a>
 
           <a
-            href={hero.cta.tertiary.href}
+            href={heroData.cta.tertiary.href}
             target="_blank"
             rel="noopener noreferrer"
             className="relative inline-flex items-center gap-2 rounded-2xl px-8 py-3.5 text-sm font-medium text-muted-foreground transition-all hover:text-white"
           >
-            {hero.cta.tertiary.label}
+            {heroData.cta.tertiary.label}
             <ExternalLink className="size-3.5" />
           </a>
         </motion.div>
       </div>
 
+      {/* Scroll prompt */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -1,10 +1,15 @@
 'use client'
 
-import { useRef, useState, type ReactNode } from 'react'
-import { motion, useInView, type Variant } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { ANIMATION } from '@/lib/constants'
 
-interface RevealProps {
-  children: ReactNode
+/* -------------------------------------------------------------------------- */
+/*  Reveal                                                                    */
+/* -------------------------------------------------------------------------- */
+
+export interface RevealProps {
+  children: React.ReactNode
   className?: string
   delay?: number
   duration?: number
@@ -12,40 +17,46 @@ interface RevealProps {
   once?: boolean
 }
 
+const directionMap: Record<NonNullable<RevealProps['direction']>, { x?: number; y?: number }> = {
+  up: { y: 40 },
+  down: { y: -40 },
+  left: { x: 40 },
+  right: { x: -40 },
+  none: {},
+}
+
 export function Reveal({
   children,
   className,
   delay = 0,
-  duration = 0.6,
+  duration = ANIMATION.DURATION.normal,
   direction = 'up',
   once = true,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once, margin: '-80px' })
 
-  const directions: Record<string, Variant> = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
-    none: { x: 0, y: 0 },
-  }
+  const { x = 0, y = 0 } = directionMap[direction]
 
   return (
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, ...directions[direction] }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...directions[direction] }}
-      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      initial={{ opacity: 0, x, y }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
+      transition={{ duration, delay, ease: ANIMATION.EASE }}
     >
       {children}
     </motion.div>
   )
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Stagger container                                                         */
+/* -------------------------------------------------------------------------- */
+
 interface StaggerProps {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
   staggerDelay?: number
   once?: boolean
@@ -54,7 +65,7 @@ interface StaggerProps {
 export function Stagger({
   children,
   className,
-  staggerDelay = 0.1,
+  staggerDelay = ANIMATION.STAGGER,
   once = true,
 }: StaggerProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -80,13 +91,16 @@ export function Stagger({
   )
 }
 
-export function StaggerItem({
-  children,
-  className,
-}: {
-  children: ReactNode
+/* -------------------------------------------------------------------------- */
+/*  Stagger item                                                              */
+/* -------------------------------------------------------------------------- */
+
+interface StaggerItemProps {
+  children: React.ReactNode
   className?: string
-}) {
+}
+
+export function StaggerItem({ children, className }: StaggerItemProps) {
   return (
     <motion.div
       className={className}
@@ -95,7 +109,7 @@ export function StaggerItem({
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+          transition: { duration: 0.5, ease: ANIMATION.EASE },
         },
       }}
     >
@@ -103,6 +117,10 @@ export function StaggerItem({
     </motion.div>
   )
 }
+
+/* -------------------------------------------------------------------------- */
+/*  Text reveal by character                                                  */
+/* -------------------------------------------------------------------------- */
 
 export function TextReveal({
   text,
@@ -124,7 +142,7 @@ export function TextReveal({
           transition={{
             duration: 0.4,
             delay: i * 0.02,
-            ease: [0.25, 0.1, 0.25, 1],
+            ease: ANIMATION.EASE,
           }}
           className="inline-block"
         >
@@ -135,22 +153,28 @@ export function TextReveal({
   )
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Magnetic button                                                           */
+/* -------------------------------------------------------------------------- */
+
 export function MagneticButton({
   children,
   className,
 }: {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
 }) {
   const ref = useRef<HTMLButtonElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
   const handleMouse = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!ref.current) return
     const { clientX, clientY } = e
-    const { left, top, width, height } = ref.current!.getBoundingClientRect()
-    const x = (clientX - (left + width / 2)) * 0.15
-    const y = (clientY - (top + height / 2)) * 0.15
-    setPosition({ x, y })
+    const { left, top, width, height } = ref.current.getBoundingClientRect()
+    setPosition({
+      x: (clientX - (left + width / 2)) * 0.15,
+      y: (clientY - (top + height / 2)) * 0.15,
+    })
   }
 
   return (

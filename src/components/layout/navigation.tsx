@@ -1,32 +1,29 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { NAV_ITEMS } from '@/lib/constants'
 
-const navItems = [
-  { label: 'Work', href: '#projects' },
-  { label: 'Capabilities', href: '#capabilities' },
-  { label: 'Journey', href: '#journey' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
-]
+/* ── Navigation ─────────────────────────────────────────────────────────── */
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
 
+  /* Scroll handler */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
+  /* IntersectionObserver for active section tracking */
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id)
         })
       },
       { threshold: 0.3, rootMargin: '-80px 0px' }
@@ -36,8 +33,8 @@ export function Navigation() {
     sections.forEach((s) => observer.observe(s))
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
       sections.forEach((s) => observer.unobserve(s))
+      observer.disconnect()
     }
   }, [])
 
@@ -53,34 +50,35 @@ export function Navigation() {
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a
-          href="#"
+        <Link
+          href="/"
           className="font-mono text-sm font-medium tracking-tight text-white transition-opacity hover:opacity-80"
         >
           VS
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`relative rounded-xl px-4 py-2 text-sm transition-colors ${
-                activeSection === item.href.slice(1)
-                  ? 'text-white'
-                  : 'text-muted-foreground hover:text-white'
-              }`}
-            >
-              {activeSection === item.href.slice(1) && (
-                <motion.div
-                  layoutId="nav-active"
-                  className="absolute inset-0 rounded-xl bg-white/[0.06]"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{item.label}</span>
-            </a>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.href.slice(1)
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`relative rounded-xl px-4 py-2 text-sm transition-colors ${
+                  isActive ? 'text-white' : 'text-muted-foreground hover:text-white'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-active"
+                    className="absolute inset-0 rounded-xl bg-white/[0.06]"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
+              </a>
+            )
+          })}
         </div>
 
         <MobileNav />
@@ -89,15 +87,19 @@ export function Navigation() {
   )
 }
 
+/* ── Mobile navigation ──────────────────────────────────────────────────── */
+
 function MobileNav() {
   const [open, setOpen] = useState(false)
+  const toggle = () => setOpen((prev) => !prev)
 
   return (
     <div className="md:hidden">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
         className="flex size-10 items-center justify-center rounded-xl border border-white/[0.08] text-white"
         aria-label="Toggle menu"
+        type="button"
       >
         <div className="flex flex-col gap-1.5">
           <motion.span
@@ -115,29 +117,27 @@ function MobileNav() {
         </div>
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute left-0 right-0 top-full border-b border-white/[0.06] bg-[#050505]/95 p-6 backdrop-blur-xl"
-          >
-            <div className="flex flex-col gap-2">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-white"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute left-0 right-0 top-full border-b border-white/[0.06] bg-[#050505]/95 p-6 backdrop-blur-xl"
+        >
+          <div className="flex flex-col gap-2">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-4 py-3 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-white"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }

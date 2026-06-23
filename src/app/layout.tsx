@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
+import { SITE_METADATA } from '@/lib/constants'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,25 +25,22 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Vaibhav Surthi — AI Engineer & Product Builder',
-  description:
-    'Building intelligent systems, machine learning products, and AI-powered experiences. AI Engineer, ML Engineer, Data Scientist, and Product Builder.',
-  metadataBase: new URL('https://vaibhavsurthi.vercel.app'),
+  title: SITE_METADATA.title,
+  description: SITE_METADATA.description,
+  metadataBase: new URL(SITE_METADATA.url),
   openGraph: {
-    title: 'Vaibhav Surthi — AI Engineer & Product Builder',
-    description:
-      'Building intelligent systems, machine learning products, and AI-powered experiences.',
-    url: 'https://vaibhavsurthi.vercel.app',
-    siteName: 'Vaibhav Surthi',
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
+    url: SITE_METADATA.url,
+    siteName: SITE_METADATA.author,
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vaibhav Surthi — AI Engineer & Product Builder',
-    description:
-      'Building intelligent systems, machine learning products, and AI-powered experiences.',
-    creator: '@vaibhavsurthi',
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
+    creator: SITE_METADATA.twitterHandle,
   },
   robots: {
     index: true,
@@ -77,11 +75,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Person',
-              name: 'Vaibhav Surthi',
-              url: 'https://vaibhavsurthi.vercel.app',
+              name: SITE_METADATA.author,
+              url: SITE_METADATA.url,
               jobTitle: 'AI Engineer',
-              description:
-                'Building intelligent systems, machine learning products, and AI-powered experiences.',
+              description: SITE_METADATA.description,
               sameAs: [
                 'https://github.com/vaibhxvvy',
                 'https://www.linkedin.com/in/vaibhavsurthi/',
