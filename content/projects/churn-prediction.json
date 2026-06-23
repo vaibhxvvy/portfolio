@@ -1,0 +1,12 @@
+{
+  "title": "Customer Churn Prediction",
+  "description": "An end-to-end machine learning pipeline that predicts customer churn with high accuracy, enabling proactive retention strategies.",
+  "problem": "Businesses lose significant revenue from customer churn, often detecting it too late.",
+  "solution": "Built a classification model using ensemble methods with feature engineering and automated preprocessing. Deployed as a REST API.",
+  "impact": "Achieved 92% prediction accuracy, enabling proactive customer retention",
+  "image": "/images/project-churn.jpg",
+  "year": "2024",
+  "github": "https://github.com/vaibhxvvy",
+  "tags": ["Machine Learning", "API", "Production"],
+  "techStack": ["Python", "Scikit-learn", "XGBoost", "FastAPI", "Docker", "Pandas"]
+}

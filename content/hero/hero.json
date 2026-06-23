@@ -1,0 +1,15 @@
+{
+  "name": "Vaibhav Surthi",
+  "roles": [
+    { "role": "AI Engineer" },
+    { "role": "Machine Learning Engineer" },
+    { "role": "Product Builder" },
+    { "role": "Data Scientist" }
+  ],
+  "statement": "Building intelligent systems, machine learning products, and useful software.",
+  "cta": {
+    "primary": { "href": "#projects", "label": "View Work" },
+    "secondary": { "href": "/resume.pdf", "label": "Resume" },
+    "tertiary": { "href": "https://github.com/vaibhxvvy", "label": "GitHub" }
+  }
+}
