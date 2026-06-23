@@ -73,7 +73,7 @@ export function About() {
               className="p-6 font-mono text-sm leading-loose min-h-[280px]"
             >
               {lines.map((line, i) => (
-                <div key={i} className={line.startsWith('$') ? 'text-[#7C3AED] mt-3 first:mt-0' : 'text-secondary-foreground'}>
+                <div key={i} className={typeof line === 'string' && line.startsWith('$') ? 'text-[#7C3AED] mt-3 first:mt-0' : 'text-secondary-foreground'}>
                   {line || '\u00A0'}
                 </div>
               ))}
